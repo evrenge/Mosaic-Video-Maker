@@ -70,13 +70,13 @@ if __name__ == '__main__':
     controls_frame.pack(side=LEFT)
 
     label = Label(controls_frame, text="Split X")
-    x_scale = Scale(controls_frame, from_=5, to=100, orient=HORIZONTAL,
+    x_scale = Scale(controls_frame, from_=5, to=250, orient=HORIZONTAL,
                             length=250, resolution=5, command=set_split_x, var=split_x)
     label.pack()
     x_scale.pack()
 
     label = Label(controls_frame, text="Split Y")
-    y_scale = Scale(controls_frame, from_=5, to=100, orient=HORIZONTAL,
+    y_scale = Scale(controls_frame, from_=5, to=250, orient=HORIZONTAL,
                             length=250, resolution=5, command=set_split_y, var=split_y)
     label.pack()
     y_scale.pack()

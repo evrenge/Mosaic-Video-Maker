@@ -42,3 +42,6 @@ class HelperOBJ:
         closest=self.kdTree.query(color)[1]
         self.color_cache[index] = closest
         return closest
+
+def getAverageColor(img):
+    return [img[:, :, i].mean() for i in range(img.shape[-1])]
