@@ -11,8 +11,9 @@ class HelperOBJ:
         self.tilesFolder = self.rootFolder / "tiles/"
         self.dataFile = self.rootFolder / "out/data.json"
 
-        self.tiles =[]
         self.colors=[]
+        self.resolutions=[(12,12), (16,16), (24,24), (36,36), (48,48), (72,72), (108,108)] #W,H
+        self.tiles =    [[] for i in self.resolutions]
 
         data = json.loads(open(str(self.dataFile)).read())
 
@@ -22,7 +23,13 @@ class HelperOBJ:
             img = cv2.imread(img_path, cv2.IMREAD_COLOR)
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             img = cv2.resize(img, (76, 86))
-            self.tiles.append(img)
+            for i,resolution in enumerate(self.resolutions):
+                img_tmp=img
+                if(img.shape[0]*img.shape[1]>16*resolution[0]*resolution[1]):
+                    img_tmp=cv2.resize(img_tmp, (resolution[0]*2,resolution[1]*2) ,interpolation=cv2.INTER_AREA)
+
+                self.tiles[i].append(cv2.resize(img_tmp, resolution,interpolation=cv2.INTER_CUBIC))
+
             color=d['average_color']
             self.colors.append( [color[2],color[1],color[0]] )
 
@@ -32,9 +39,8 @@ class HelperOBJ:
         self.color_cache={}
 
     def findNearestNeighbor(self, color):
-        r, g, b = int(color[0]), int(color[1]), int(color[2])
+        index = (int(color[0])<<16) | (int(color[1])<<8) | int(color[2])
 
-        index = (r<<16) | (g<<8) | b
         # if self.color_cache[index]!=-1:
         if index in self.color_cache:
             return self.color_cache[index]
