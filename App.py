@@ -7,7 +7,7 @@ from tkinter import filedialog as fd
 from threading import Thread
 
 root = Tk()
-root.title("Pokiki - Mosaic Video Maker")
+root.title("Mosaic Video Maker")
 root.resizable(False, False)
 
 style = Style(root)
